@@ -12,6 +12,9 @@ import java.nio.file.FileSystem;
 //       if you call main with all args Gui will not show.
 //       But if you skip some args Gui will show and all args you provided will be filled in for you.
 
+// TODO: Use Java streaming to store the settings set by user for map generating in a file.
+//       Store it as a list of key value pairs.
+
 public class Gui extends JFrame implements ActionListener {
 
     private Dimension WINDOW_START_SIZE = new Dimension(500, 300);
@@ -101,6 +104,7 @@ public class Gui extends JFrame implements ActionListener {
 	for(int i=0; i<=MAX_SCALE; ++i) {
 	    scaleSelector.addItem(i);
 	}
+	scaleSelector.setSelectedIndex(2);
 
 	// Components in outputPanel
 	outputLabel = new JLabel("Output file: ");
@@ -161,8 +165,19 @@ public class Gui extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 	Object o = e.getSource();
 	FileSystem fs = FileSystems.getDefault();
-	
-	if (o == inputDefaultButton) {
+
+	if (o == inputBrowseButton) {
+	    Path p = performSelectFolder();
+	    if (p != null) {
+		inputFolderBox.setText(p.toString());
+	    }
+	} else if (o == outputBrowseButton) {
+	    // TODO: Output folder should be selected
+	    Path p = performSelectFolder();
+	    if (p != null) {
+		outputFileBox.setText(p.toString());
+	    }
+	} else if (o == inputDefaultButton) {
 	    setDefaultInput(true);
 	    
 	} else if (o == outputDefaultButton) {
@@ -187,13 +202,15 @@ public class Gui extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, "Please set the input folder path.");
 		return;
 	    }
+	    // TODO: outputFileBox should be renamed and contain a folder path instead.
+            //       Add a filename to the path hee to get the outputFile path.
 	    String outputFile = outputFileBox.getText();
 	    if (outputFile.isEmpty()) {
 		JOptionPane.showMessageDialog(null, "Please set an output file path.");
 		return;
 	    }
 
-	    int scale = scaleSelector.getSelectedItem();
+	    int scale = (Integer)(scaleSelector.getSelectedItem());
 
 	    // TODO: combineToImage should return true/false to indicate error or not. Print error message to a field in the Combiner object.
 	    Combiner.combineToImage(fs.getPath(inputFolder), dimension, scale, fs.getPath(outputFile));
@@ -201,15 +218,13 @@ public class Gui extends JFrame implements ActionListener {
 	}
     }
     
-    public Path performSeletFolder() {
+    public Path performSelectFolder() {
 	// TODO: Set default Minecraft folder as start folder
 	JFileChooser fc = new JFileChooser();
 	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	int res = fc.showOpenDialog(this);
-	return fc.getSelectedFile();
+	return fc.getSelectedFile().toPath();
     }
-
-    
 
     public boolean setDefaultInput(boolean printError) {
 	if (printError) {
