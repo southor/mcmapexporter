@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 // TODO: Create a new tool where you can input the coordinates of a location and you get a list of maps that overlaps with that location.
 
+// TODO: Read last time written date of the files, use this for secondary sorting of the maps (after zoom level).
+
 class MapCollection {
     private ArrayList<Map> maps;
     int dimension;
