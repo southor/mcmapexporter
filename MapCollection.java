@@ -6,7 +6,11 @@ import java.util.ArrayList;
 
 // TODO: Add ability to output each loaded map as an image with a corresponding name to the number of the map
 
-// TODO: Do not print "loading map" to console when it is being skipped (due to wrong dimension.
+// TODO: Do not print "loading map" to console when it is being skipped (due to wrong dimension).
+
+// TODO: Print map numbers on the image, every map with the same center position must compete who will get its name there?
+
+// TODO: Create a new tool where you can input the coordinates of a location and you get a list of maps that overlaps with that location.
 
 class MapCollection {
     private ArrayList<Map> maps;
@@ -45,8 +49,7 @@ class MapCollection {
 
     // Tries to find a reason why a file is not a minecraft map without opening the file
     public boolean couldBeAMap(File file) {
-        // TODO
-        return true;
+	return file.getName().substring(0, 3).equalsIgnoreCase("map");
     }
 
     public int getNMaps() {
