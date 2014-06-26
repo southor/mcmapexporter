@@ -279,7 +279,6 @@ class Map {
      * @param dimension An out parameter describing which dimension the loaded map represents.
      */
     public Map(Path file, ReadResult dimension) throws IOException {
-	// TODO: Find out if its gzipped on our own by reading from file.
 
 	//System.out.println("********************************");
 	//System.out.println("Loading file: " + file);
@@ -685,7 +684,7 @@ class Map {
                         }
                     }
                     pixel = (byte)colorCounter.getHighestRes();
-		    // TODO: If pixel represents the unexplored color, then do not write the pixel.
+		    // If pixel represents the unexplored color, then do not write the pixel.
 		    if (isExplored(pixel)) {
 			lowResMap.writePixel(lowX, lowZ, pixel);
 		    }

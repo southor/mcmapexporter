@@ -8,10 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.FileSystems;
 import java.nio.file.FileSystem;
 
-// TODO: Merge Gui.java with Combiner.java and make it so that
-//       if you call main with all args Gui will not show.
-//       But if you skip some args Gui will show and all args you provided will be filled in for you.
-
 // TODO: Use Java streaming to store the settings set by user for map generating in a file.
 //       Store it as a list of key value pairs.
 
@@ -19,8 +15,6 @@ public class Gui extends JFrame implements ActionListener {
 
     private Dimension WINDOW_START_SIZE = new Dimension(500, 300);
     private Dimension TEXT_FIELD_START_SIZE = new Dimension(100, 20);
-
-    // TODO: Remove both default buttons.
 
     JPanel windowPanel;
 
@@ -55,9 +49,8 @@ public class Gui extends JFrame implements ActionListener {
 
     // TODO: Can we skip placing labels and other components here that we don't need to access after creation?
 
-    // TODO: look up correct value
+    // TODO: what is the correct value?
     int MAX_SCALE = 5;
-    
     
     Gui() {
 
@@ -186,7 +179,7 @@ public class Gui extends JFrame implements ActionListener {
 		return;
 	    }
 
-	    String outputFile = "combinedMap.png";
+	    String outputFile = "CombinedMap.png";
 	    //String outputFolder = outputFolderBox.getText();
 	    //if (outputFolder.isEmpty()) {
 	    //	JOptionPane.showMessageDialog(null, "Please set an output file path.");
@@ -199,12 +192,13 @@ public class Gui extends JFrame implements ActionListener {
 
 	    // TODO: combineToImage should return true/false to indicate error or not. Print error message to a field in the Combiner object.
 	    Combiner.combineToImage(fs.getPath(inputFolder), dimension, scale, fs.getPath(outputFile));
-	    JOptionPane.showMessageDialog(null, "Map generating done");
+	    JOptionPane.showMessageDialog(null, "Map stored to " + outputFile);
 	}
     }
     
     public Path performSelectFolder() {
 	// TODO: Set default Minecraft folder as start folder
+	// If windows set the start folder to %Minecraft% ?
 	JFileChooser fc = new JFileChooser();
 	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	int res = fc.showOpenDialog(this);

@@ -8,11 +8,6 @@ class Combiner
 
     static void combineToImage(Path mapDirectory, String dimension, int scale, Path outFile) {
 	Map.setBaseColors();
-	//System.out.println("inpath = " + mapDirectory.toString());
-	//System.out.println("dimension = " + dimension);
-	//System.out.println("scale = " + scale);
-	//System.out.println("outpath = " + outFile.toString());
-
 	int dimensionInt;
 	if (dimension.equalsIgnoreCase("Overworld")) {
 	    dimensionInt = Map.OVERWORLD;
@@ -55,8 +50,6 @@ class Combiner
         Path outFile = fs.getPath(args[3]);
 	System.out.println("map directory = " + mapDirectory);
 	System.out.println("dimension = " + dimension);
-	//System.out.println("scale = " + scale);
-	//System.out.println("outFile = " + outFile);
         combineToImage(mapDirectory, dimension, scale, outFile);
     }
 
