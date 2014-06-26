@@ -22,22 +22,18 @@ public class Gui extends JFrame implements ActionListener {
 
     // TODO: Remove both default buttons.
 
-    // TODO: Add a config file that stores the settings between program runs
-    //       Use standard java streanming for this but store everything as strings and use version numbers on store object names.
-
     JPanel windowPanel;
 
     JPanel inputPanel;
     JPanel dimensionPanel;
     JPanel scalePanel;
-    JPanel outputPanel;
+    //JPanel outputPanel;
     JPanel startPanel;
 
     // Components in inputPanel
     JLabel inputLabel;
     JTextField inputFolderBox;
     JButton inputBrowseButton;
-    JButton inputDefaultButton;
 
     // Components in dimensionPanel
     JLabel dimensionLabel;
@@ -49,11 +45,10 @@ public class Gui extends JFrame implements ActionListener {
     JLabel scaleLabel;
     JComboBox<Integer> scaleSelector;
 
-    // Components in outputPanel
-    JLabel outputLabel;
-    JTextField outputFileBox;
-    JButton outputBrowseButton;
-    JButton outputDefaultButton;
+    //// Components in outputPanel
+    //JLabel outputLabel;
+    //JTextField outputFolderBox;
+    //JButton outputBrowseButton;
 
     // Components in startPanel
     JButton startButton;
@@ -76,7 +71,7 @@ public class Gui extends JFrame implements ActionListener {
 	inputPanel = new JPanel();
 	dimensionPanel = new JPanel();
 	scalePanel = new JPanel();
-	outputPanel = new JPanel();
+	//outputPanel = new JPanel();
 	startPanel = new JPanel();
 
 	// Components in inputPanel
@@ -84,9 +79,7 @@ public class Gui extends JFrame implements ActionListener {
 	inputFolderBox = new JTextField();
 	inputFolderBox.setPreferredSize(TEXT_FIELD_START_SIZE);
 	inputBrowseButton = new JButton("Browse");
-	inputDefaultButton = new JButton("Use default");
 	inputBrowseButton.addActionListener(this);
-	inputDefaultButton.addActionListener(this);
 
 	// Components in dimensionPanel
 	dimensionLabel = new JLabel("dimension: ");
@@ -106,14 +99,12 @@ public class Gui extends JFrame implements ActionListener {
 	}
 	scaleSelector.setSelectedIndex(2);
 
-	// Components in outputPanel
-	outputLabel = new JLabel("Output file: ");
-	outputFileBox = new JTextField();
-	outputFileBox.setPreferredSize(TEXT_FIELD_START_SIZE);
-	outputBrowseButton = new JButton("Browse");
-	outputDefaultButton = new JButton("Use default");
-	outputBrowseButton.addActionListener(this);
-	outputDefaultButton.addActionListener(this);
+	//// Components in outputPanel
+	//outputLabel = new JLabel("Output file: ");
+	//outputFolderBox = new JTextField();
+	//outputFolderBox.setPreferredSize(TEXT_FIELD_START_SIZE);
+	//outputBrowseButton = new JButton("Browse");
+	//outputBrowseButton.addActionListener(this);
 
 	// components in startPanel
 	startButton = new JButton("Create Map");
@@ -124,13 +115,12 @@ public class Gui extends JFrame implements ActionListener {
 	windowPanel.add(inputPanel);
 	windowPanel.add(dimensionPanel);
 	windowPanel.add(scalePanel);
-	windowPanel.add(outputPanel);
+	//windowPanel.add(outputPanel);
 	windowPanel.add(startPanel);
 
 	inputPanel.add(inputLabel);
 	inputPanel.add(inputFolderBox);
 	inputPanel.add(inputBrowseButton);
-	inputPanel.add(inputDefaultButton);
 
 	dimensionPanel.add(dimensionLabel);
 	dimensionPanel.add(dimensionRadioPanel);
@@ -142,16 +132,14 @@ public class Gui extends JFrame implements ActionListener {
 	scalePanel.add(scaleLabel);
 	scalePanel.add(scaleSelector);
 	
-	outputPanel.add(outputLabel);
-	outputPanel.add(outputFileBox);
-	outputPanel.add(outputBrowseButton);
-	outputPanel.add(outputDefaultButton);
+	//outputPanel.add(outputLabel);
+	//outputPanel.add(outputFolderBox);
+	//outputPanel.add(outputBrowseButton);
 
 	startPanel.add(startButton);
 
-	setDefaultInput(false);
 	dimensionRadios[1].setSelected(true);
-	setDefaultOutput();
+	//outputFolderBox.setText("output");
 
     }
 
@@ -171,17 +159,12 @@ public class Gui extends JFrame implements ActionListener {
 	    if (p != null) {
 		inputFolderBox.setText(p.toString());
 	    }
-	} else if (o == outputBrowseButton) {
-	    // TODO: Output folder should be selected
-	    Path p = performSelectFolder();
-	    if (p != null) {
-		outputFileBox.setText(p.toString());
-	    }
-	} else if (o == inputDefaultButton) {
-	    setDefaultInput(true);
-	    
-	} else if (o == outputDefaultButton) {
-	    setDefaultOutput();
+	//} else if (o == outputBrowseButton) {
+	  //  // TODO: It should not be a "save" dialog.
+	  //  Path p = performSelectFolder();
+	  //  if (p != null) {
+	  //	outputFolderBox.setText(p.toString());
+	  //  }
 	} else if (o == startButton) {
 
 	    String dimension = "";
@@ -202,13 +185,15 @@ public class Gui extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, "Please set the input folder path.");
 		return;
 	    }
-	    // TODO: outputFileBox should be renamed and contain a folder path instead.
-            //       Add a filename to the path hee to get the outputFile path.
-	    String outputFile = outputFileBox.getText();
-	    if (outputFile.isEmpty()) {
-		JOptionPane.showMessageDialog(null, "Please set an output file path.");
-		return;
-	    }
+
+	    String outputFile = "combinedMap.png";
+	    //String outputFolder = outputFolderBox.getText();
+	    //if (outputFolder.isEmpty()) {
+	    //	JOptionPane.showMessageDialog(null, "Please set an output file path.");
+	    //	return;
+	    //}
+
+	    // TODO: Add radiobuttons to select png or jpg or gif format.
 
 	    int scale = (Integer)(scaleSelector.getSelectedItem());
 
@@ -225,19 +210,6 @@ public class Gui extends JFrame implements ActionListener {
 	int res = fc.showOpenDialog(this);
 	return fc.getSelectedFile().toPath();
     }
-
-    public boolean setDefaultInput(boolean printError) {
-	if (printError) {
-	    JOptionPane.showMessageDialog(null, "The program doesn't know the default\nMinecraft map folder for your system.\nYou must supply the path yourself.");
-	}
-	return false;
-    }
-
-    public void setDefaultOutput() {
-	outputFileBox.setText("combined_map.png");
-    }
-
-    
 
 }
     
