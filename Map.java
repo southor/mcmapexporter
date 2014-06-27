@@ -1,4 +1,4 @@
-import java.nio.file.Path;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.ByteBuffer;
 import java.io.IOException;
@@ -16,6 +16,7 @@ class Map {
     private int width;
     private int height;
     private int scale;
+    private long lastModified;
     private byte[] pixels;
 
     public static final int OVERWORLD = 0;
@@ -105,6 +106,7 @@ class Map {
     public Map(int beginX, int beginZ, int endX, int endZ, int scale) {
 	boolean print = false;
         this.scale = scale;
+	this.lastModified = 0;
         int sizeX = endX - beginX;
         int sizeZ = endZ - beginZ;
         this.centerX = beginX + sizeX/2;
@@ -192,14 +194,14 @@ class Map {
         res.length = i - startI;
      }
 
-    private static byte[] loadFile(Path file) throws IOException {
-        return Files.readAllBytes(file);
+    private static byte[] loadFile(File file) throws IOException {
+        return Files.readAllBytes(file.toPath());
     }
 
-    private static byte[] loadGZippedFile(Path file) throws IOException {
+    private static byte[] loadGZippedFile(File file) throws IOException {
 	boolean useGZip = true;
 
-	FileInputStream fis = new FileInputStream(file.toFile());
+	FileInputStream fis = new FileInputStream(file);
 	java.util.zip.GZIPInputStream gis = null;
 	InputStream is = fis;
 	if (useGZip) {
@@ -278,7 +280,7 @@ class Map {
      * Loads a minecraft map item
      * @param dimension An out parameter describing which dimension the loaded map represents.
      */
-    public Map(Path file, ReadResult dimension) throws IOException {
+    public Map(File file, ReadResult dimension) throws IOException {
 
 	//System.out.println("********************************");
 	//System.out.println("Loading file: " + file);
@@ -334,6 +336,8 @@ class Map {
 		this.pixels = readColors(fileArray, i, size);
             }
         }
+
+	this.lastModified = file.lastModified();
 	
 	//System.out.println("loaded image width=" + width + ", height=" + height);
 
@@ -357,6 +361,8 @@ class Map {
     }
 
     public int getScale()       { return scale; }
+
+    public long getLastModified() { return lastModified; }
     
     public int getSizeX()       { return mapToWorld(width);      }
     public int getSizeZ()       { return mapToWorld(height);     }
@@ -483,7 +489,7 @@ class Map {
 	return new java.awt.Color(ir, ig, ib); // the final color
     }
     
-    public boolean exportImage(Path file, int dimension) {
+    public boolean exportImage(File file, int dimension) {
 	if (width <= 0 || height <= 0) {
 	    System.out.println("Cannot save image to disk, image has zero size.");
 	    return false;
@@ -499,13 +505,12 @@ class Map {
             }
         }
 	try {
-	    java.io.File ffile = file.toFile();
-	    String filename = ffile.getName();
+	    String filename = file.getName();
 	    String extension = "";
 	    int i = filename.lastIndexOf('.');
 	    if (i >= 0) {
 		extension = filename.substring(i+1);
-		javax.imageio.ImageIO.write(bi, extension, ffile);
+		javax.imageio.ImageIO.write(bi, extension, file);
 	    } else {
 		System.out.println("Error: Where not able to determine file extension.");
 		return false;

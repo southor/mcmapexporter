@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 // TODO: Read last time written date of the files, use this for secondary sorting of the maps (after zoom level).
 
+// TODO: Add ability to read a list of maps id's in a file and only include those id's in the list
+
 class MapCollection {
     private ArrayList<Map> maps;
     int dimension;
@@ -20,6 +22,8 @@ class MapCollection {
 	public int compare(Map m1, Map m2) {
 	    if (m1.getScale() < m2.getScale()) return 1;
 	    else if (m1.getScale() > m2.getScale()) return -1;
+	    else if (m1.getLastModified() > m2.getLastModified()) return 1;
+	    else if (m1.getLastModified() < m2.getLastModified()) return -1;
 	    else return 0;
 	}
     }
@@ -35,7 +39,7 @@ class MapCollection {
                 if ( ! file.isFile()) continue;
                 if ( ! couldBeAMap(file)) continue;
                 Map.ReadResult mapDimension = new Map.ReadResult();
-                Map map = new Map(file.toPath(), mapDimension);
+                Map map = new Map(file, mapDimension);
                 if (map.isValid() && (mapDimension.value == dimension)) {
                     maps.add(map);
                 }
@@ -93,7 +97,7 @@ class MapCollection {
     public boolean exportImage(Path file, int scale) {
         Map combinedMap = combine(scale);
         if (combinedMap == null) return false;
-        return combinedMap.exportImage(file, dimension);
+        return combinedMap.exportImage(file.toFile(), dimension);
     }
     
 };
