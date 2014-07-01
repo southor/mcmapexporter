@@ -1,3 +1,5 @@
+package ts.mcmapexporter;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.FileSystem;
@@ -10,9 +12,8 @@ import java.util.ArrayList;
 
 // TODO: Create a new tool where you can input the coordinates of a location and you get a list of maps that overlaps with that location.
 
-// TODO: Read last time written date of the files, use this for secondary sorting of the maps (after zoom level).
-
-// TODO: Add ability to read a list of maps id's in a file and only include those id's in the list
+// TODO: Add ability to read a list of map id's in a file and only include those id's in the list.
+//       Use java.util.Properties to achieve this.
 
 class MapCollection {
 	private ArrayList<Map> maps;
@@ -113,4 +114,4 @@ class MapCollection {
 		return combinedMap.exportImage(file.toFile(), dimension);
 	}
 
-};
+}

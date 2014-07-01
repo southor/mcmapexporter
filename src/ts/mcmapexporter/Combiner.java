@@ -1,3 +1,5 @@
+package ts.mcmapexporter;
+
 import java.nio.file.Path;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -44,8 +46,9 @@ class Combiner {
 	}
 
 	public static void main(String[] args) {
-		if (args.length < 4)
+		if (args.length < 4) {
 			System.out.println("Error: Not enough arguments, see source code.");
+		}
 		FileSystem fs = FileSystems.getDefault();
 		Path mapDirectory = fs.getPath(args[0]);
 		String dimension = args[1];
@@ -56,4 +59,4 @@ class Combiner {
 		combineToImage(mapDirectory, dimension, scale, outFile);
 	}
 
-};
+}

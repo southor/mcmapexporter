@@ -1,3 +1,4 @@
+package ts.mcmapexporter;
 
 import javax.swing.*;
 import java.awt.Dimension;
@@ -7,13 +8,23 @@ import java.nio.file.Path;
 import java.nio.file.FileSystems;
 import java.nio.file.FileSystem;
 
-// TODO: Use Java streaming to store the settings set by user for map generating in a file.
-//       Store it as a list of key value pairs.
+// TODO: We should skip storing labels and other components in the object that we don't need to access after creation.
 
-// TODO: Add tabs in Gui, one tab for map generating and another for opening a map and look at it (new window will pop up with the right size).
+//TODO: Use java.util.Properties to store the settings set by user for map generating in a file.
+//      Some properties don't have to be settable from the Gui.
+//      If output directory is settable from Gui then maybe filenames should not be settable.
+//      OverworldMap.png, NetherMap.png, TheEndMap.png is good default-names.
+//      See this example on java Properties: http://crunchify.com/java-properties-file-how-to-read-config-properties-values-in-java/
 
-// TODO: Use a save diologe to save to file instead. You can generate the map without
-//       setting the ouput file first but then the save diologe will pop up after generating is done.
+//TODO: Add tabs in Gui, one tab for map generating and another for opening a map and look at it
+//      (new window will pop up with the right size).
+
+//TODO: Create a save dialoge that is used to select a save folder.
+//      In this folder the map files will be stored (names of files specified in .properties file).
+//      Another possiblity is to have one save box for each map dimension (3 dimensions)
+//      This does not work well if you have multiple maps for each dimension which you can have if
+//      you have made a list of map numbers to include in a limited map.
+
 
 public class Gui extends JFrame implements ActionListener {
 
@@ -29,7 +40,6 @@ public class Gui extends JFrame implements ActionListener {
 	JPanel startPanel;
 
 	// Components in inputPanel
-	JLabel inputLabel;
 	JTextField inputFolderBox;
 	JButton inputBrowseButton;
 
@@ -51,9 +61,6 @@ public class Gui extends JFrame implements ActionListener {
 	// Components in startPanel
 	JButton startButton;
 
-	// TODO: Can we skip placing labels and other components here that we don't
-	// need to access after creation?
-
 	// TODO: what is the correct value?
 	int MAX_SCALE = 5;
 
@@ -73,7 +80,6 @@ public class Gui extends JFrame implements ActionListener {
 		startPanel = new JPanel();
 
 		// Components in inputPanel
-		inputLabel = new JLabel("Input Map Folder: ");
 		inputFolderBox = new JTextField();
 		inputFolderBox.setPreferredSize(TEXT_FIELD_START_SIZE);
 		inputBrowseButton = new JButton("Browse");
@@ -82,8 +88,7 @@ public class Gui extends JFrame implements ActionListener {
 		// Components in dimensionPanel
 		dimensionLabel = new JLabel("dimension: ");
 		dimensionRadioPanel = new JPanel();
-		dimensionRadioPanel.setLayout(new BoxLayout(dimensionRadioPanel,
-				BoxLayout.Y_AXIS));
+		dimensionRadioPanel.setLayout(new BoxLayout(dimensionRadioPanel, BoxLayout.Y_AXIS));
 		dimensionButtonGroup = new ButtonGroup();
 		dimensionRadios = new JRadioButton[3];
 		dimensionRadios[0] = new JRadioButton("Nether");
@@ -117,7 +122,7 @@ public class Gui extends JFrame implements ActionListener {
 		// windowPanel.add(outputPanel);
 		windowPanel.add(startPanel);
 
-		inputPanel.add(inputLabel);
+		inputPanel.add(new JLabel("Input Map Folder: "));
 		inputPanel.add(inputFolderBox);
 		inputPanel.add(inputBrowseButton);
 
@@ -214,5 +219,4 @@ public class Gui extends JFrame implements ActionListener {
 		int res = fc.showOpenDialog(this);
 		return fc.getSelectedFile().toPath();
 	}
-
 }

@@ -1,3 +1,5 @@
+package ts.mcmapexporter;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.ByteBuffer;
@@ -761,4 +763,4 @@ class Map {
 		}
 	}
 
-};
+}
