@@ -31,14 +31,6 @@ public class Gui extends JFrame implements ActionListener {
 	private Dimension WINDOW_START_SIZE = new Dimension(500, 300);
 	private Dimension TEXT_FIELD_START_SIZE = new Dimension(100, 20);
 
-	JPanel windowPanel;
-
-	JPanel inputPanel;
-	JPanel dimensionPanel;
-	JPanel scalePanel;
-	// JPanel outputPanel;
-	JPanel startPanel;
-
 	// Components in inputPanel
 	JTextField inputFolderBox;
 	JButton inputBrowseButton;
@@ -62,12 +54,20 @@ public class Gui extends JFrame implements ActionListener {
 	int MAX_SCALE = 5;
 
 	Gui() {
+		
+		JPanel windowPanel;
 
 		this.setPreferredSize(WINDOW_START_SIZE);
 		windowPanel = new JPanel();
 		windowPanel.setLayout(new BoxLayout(windowPanel, BoxLayout.Y_AXIS));
 		this.setContentPane(windowPanel);
 		this.setTitle("Gui");
+		
+		JPanel inputPanel;
+		JPanel dimensionPanel;
+		JPanel scalePanel;
+		JPanel outputPanel;
+		JPanel startPanel;
 
 		// create the other panels
 		inputPanel = new JPanel();
