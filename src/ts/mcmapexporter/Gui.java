@@ -44,17 +44,14 @@ public class Gui extends JFrame implements ActionListener {
 	JButton inputBrowseButton;
 
 	// Components in dimensionPanel
-	JLabel dimensionLabel;
 	JPanel dimensionRadioPanel;
 	ButtonGroup dimensionButtonGroup;
 	JRadioButton dimensionRadios[];
 
 	// Components in scalePanel
-	JLabel scaleLabel;
 	JComboBox<Integer> scaleSelector;
 
 	// // Components in outputPanel
-	// JLabel outputLabel;
 	// JTextField outputFolderBox;
 	// JButton outputBrowseButton;
 
@@ -86,7 +83,6 @@ public class Gui extends JFrame implements ActionListener {
 		inputBrowseButton.addActionListener(this);
 
 		// Components in dimensionPanel
-		dimensionLabel = new JLabel("dimension: ");
 		dimensionRadioPanel = new JPanel();
 		dimensionRadioPanel.setLayout(new BoxLayout(dimensionRadioPanel, BoxLayout.Y_AXIS));
 		dimensionButtonGroup = new ButtonGroup();
@@ -96,7 +92,6 @@ public class Gui extends JFrame implements ActionListener {
 		dimensionRadios[2] = new JRadioButton("The End");
 
 		// Components in scalePanel
-		scaleLabel = new JLabel("Scale: ");
 		scaleSelector = new JComboBox<Integer>();
 		for (int i = 0; i <= MAX_SCALE; ++i) {
 			scaleSelector.addItem(i);
@@ -126,14 +121,14 @@ public class Gui extends JFrame implements ActionListener {
 		inputPanel.add(inputFolderBox);
 		inputPanel.add(inputBrowseButton);
 
-		dimensionPanel.add(dimensionLabel);
+		dimensionPanel.add(new JLabel("dimension: "));
 		dimensionPanel.add(dimensionRadioPanel);
 		for (int i = 0; i < dimensionRadios.length; ++i) {
 			dimensionButtonGroup.add(dimensionRadios[i]);
 			dimensionRadioPanel.add(dimensionRadios[i]);
 		}
 
-		scalePanel.add(scaleLabel);
+		scalePanel.add(new JLabel("Scale: "));
 		scalePanel.add(scaleSelector);
 
 		// outputPanel.add(outputLabel);
