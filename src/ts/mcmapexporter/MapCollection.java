@@ -6,14 +6,12 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 
-// TODO: Add ability to output each loaded map as an image with a corresponding name to the number of the map
-
-// TODO: Ability to print map numbers on the image, every map with the same center position must compete who will get its name there?
-
-// TODO: Create a new tool where you can input the coordinates of a location and you get a list of maps that overlaps with that location.
-
 // TODO: Add ability to read a list of map id's in a file and only include those id's in the list.
-//       Use java.util.Properties to achieve this.
+//       This will be called a Map configuration, each Map configuration have a name (based on the name of the file) and
+//       a dimension attribute (overworld/nether/end) Parser will read the beginning of the map and
+//       look for "Overworld" "Nether" or "End", "Overworld" is default. The rest of the file is a list of numbers which
+//       corresponds to Minecraft Map item's Id's.
+//       The program will create a list of Map configuration at startup and enter the name of each one into a JComboBox.
 
 class MapCollection {
 	private ArrayList<Map> maps;

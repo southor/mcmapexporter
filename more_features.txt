@@ -1,0 +1,8 @@
+Possible Future Features:
+
+//TODO: Add tabs in Gui, one tab for map generating and another for opening a map and look at it
+//      (new window will pop up with the right size).
+
+// TODO: Ability to print map numbers on the image, every map with the same center position must compete who will get its name there?
+
+// TODO: Create a new tool where you can input the coordinates of a location and you get a list of maps that overlaps with that location?

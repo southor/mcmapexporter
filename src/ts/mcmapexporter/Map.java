@@ -624,10 +624,16 @@ class Map {
 	// When returning result shadeId is added again.
 	private class ColorCounter {
 		private int[] colorCounts = new int[N_BASE_COLORS];
-		// TODO: Keep an array of shades too, keep one shade sum for each
-		// baseColoe
 		private int shadeSum = 0;
 		private int nCounts = 0;
+		
+		public void reset() {
+			shadeSum = 0;
+			nCounts = 0;
+			for(int i=0; i<N_BASE_COLORS; ++i) {
+				colorCounts[i] = 0;
+			}
+		}
 
 		private int getShadeValue() {
 			return (int) ((double) shadeSum / (double) nCounts);
@@ -692,7 +698,6 @@ class Map {
 		assert (lowResScale >= highResScale);
 
 		int scaleMult = 1;
-		// TODO replace with shift operations?
 		for (int i = highResScale; i < lowResScale; ++i) {
 			scaleMult *= 2;
 		}
@@ -708,6 +713,8 @@ class Map {
 
 		int nXIterations = lowResEndX - lowResBeginX;
 		int nZIterations = lowResEndZ - lowResBeginZ;
+		
+		ColorCounter colorCounter = new ColorCounter();
 
 		for (int z = 0; z < nZIterations; ++z) {
 			for (int x = 0; x < nXIterations; ++x) {
@@ -739,9 +746,7 @@ class Map {
 				} else {
 					assert (lowResMap == writeMap);
 					assert (highResMap == readMap);
-					// TODO: Reuse ColorCounter in the loop (must add reset
-					// methods).
-					ColorCounter colorCounter = new ColorCounter();
+					colorCounter.reset();
 					byte pixel;
 
 					for (int subX = 0; subX < scaleMult; ++subX) {

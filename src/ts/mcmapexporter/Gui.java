@@ -8,20 +8,15 @@ import java.nio.file.Path;
 import java.nio.file.FileSystems;
 import java.nio.file.FileSystem;
 
-// TODO: We should skip storing labels and other components in the object that we don't need to access after creation.
-
 //TODO: Use java.util.Properties to store the settings set by user for map generating in a file.
 //      Some properties don't have to be settable from the Gui.
 //      If output directory is settable from Gui then maybe filenames should not be settable.
 //      OverworldMap.png, NetherMap.png, TheEndMap.png is good default-names.
 //      See this example on java Properties: http://crunchify.com/java-properties-file-how-to-read-config-properties-values-in-java/
 
-//TODO: Add tabs in Gui, one tab for map generating and another for opening a map and look at it
-//      (new window will pop up with the right size).
-
-//TODO: Create a save dialoge that is used to select a save folder.
+//TODO: Create a "save" dialoge that is used to select a save folder.
 //      In this folder the map files will be stored (names of files specified in .properties file).
-//      Another possiblity is to have one save box for each map dimension (3 dimensions)
+//      Another possibility is to have one save box for each map dimension (3 dimensions)
 //      This does not work well if you have multiple maps for each dimension which you can have if
 //      you have made a list of map numbers to include in a limited map.
 
@@ -159,7 +154,6 @@ public class Gui extends JFrame implements ActionListener {
 				inputFolderBox.setText(p.toString());
 			}
 			// } else if (o == outputBrowseButton) {
-			// // TODO: It should not be a "save" dialog.
 			// Path p = performSelectFolder();
 			// if (p != null) {
 			// outputFolderBox.setText(p.toString());
@@ -194,8 +188,6 @@ public class Gui extends JFrame implements ActionListener {
 			// return;
 			// }
 
-			// TODO: Add radiobuttons to select png or jpg or gif format.
-
 			int scale = (Integer) (scaleSelector.getSelectedItem());
 
 			// TODO: combineToImage should return true/false to indicate error
@@ -207,8 +199,8 @@ public class Gui extends JFrame implements ActionListener {
 	}
 
 	public Path performSelectFolder() {
-		// TODO: Set default Minecraft folder as start folder
-		// If windows set the start folder to %Minecraft% ?
+		// TODO: Set default Minecraft folder as the start folder
+		// If it is windows set the start folder to %Minecraft% ?
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int res = fc.showOpenDialog(this);
