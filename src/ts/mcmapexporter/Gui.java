@@ -52,7 +52,11 @@ public class Gui extends JFrame implements ActionListener {
 		// TODO: Add also for Mac and Linux
 		String osName = System.getProperty("os.name");
 		if (osName.equalsIgnoreCase("Windows")) {
-			return "%minecraft%";
+			return "%appdata%\.minecraft";
+		} else if (osName.equalsIgnoreCase("Mac")) {
+			return "~/Library/Application Support/minecraft";
+		} else if (osName.equalsIgnoreCase("Linux")) {
+			return "~/.minecraft";
 		} else {
 			return "";
 		}
