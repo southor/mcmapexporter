@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.FileSystems;
 import java.nio.file.FileSystem;
@@ -14,12 +15,11 @@ import java.nio.file.FileSystem;
 //      OverworldMap.png, NetherMap.png, TheEndMap.png is good default-names.
 //      See this example on java Properties: http://crunchify.com/java-properties-file-how-to-read-config-properties-values-in-java/
 
-//TODO: Create a "save" dialoge that is used to select a save folder.
+//TODO: Use dialoge to select output folder.
 //      In this folder the map files will be stored (names of files specified in .properties file).
 //      Another possibility is to have one save box for each map dimension (3 dimensions)
 //      This does not work well if you have multiple maps for each dimension which you can have if
 //      you have made a list of map numbers to include in a limited map.
-
 
 public class Gui extends JFrame implements ActionListener {
 
@@ -45,11 +45,21 @@ public class Gui extends JFrame implements ActionListener {
 	// Components in startPanel
 	JButton startButton;
 
-	// TODO: what is the correct value?
-	int MAX_SCALE = 5;
+	int MAX_SCALE = 4;
+	
+	private String getDefaultInputFolder() {
+		// TODO: Test/Fix for windows
+		// TODO: Add also for Mac and Linux
+		String osName = System.getProperty("os.name");
+		if (osName.equalsIgnoreCase("Windows")) {
+			return "%minecraft%";
+		} else {
+			return "";
+		}
+	}
 
 	Gui() {
-		
+
 		JPanel windowPanel;
 
 		this.setPreferredSize(WINDOW_START_SIZE);
@@ -57,7 +67,7 @@ public class Gui extends JFrame implements ActionListener {
 		windowPanel.setLayout(new BoxLayout(windowPanel, BoxLayout.Y_AXIS));
 		this.setContentPane(windowPanel);
 		this.setTitle("Gui");
-		
+
 		JPanel inputPanel;
 		JPanel dimensionPanel;
 		JPanel scalePanel;
@@ -79,7 +89,8 @@ public class Gui extends JFrame implements ActionListener {
 
 		// Components in dimensionPanel
 		dimensionRadioPanel = new JPanel();
-		dimensionRadioPanel.setLayout(new BoxLayout(dimensionRadioPanel, BoxLayout.Y_AXIS));
+		dimensionRadioPanel.setLayout(new BoxLayout(dimensionRadioPanel,
+				BoxLayout.Y_AXIS));
 		dimensionButtonGroup = new ButtonGroup();
 		dimensionRadios = new JRadioButton[3];
 		dimensionRadios[0] = new JRadioButton("Nether");
@@ -132,6 +143,7 @@ public class Gui extends JFrame implements ActionListener {
 
 		startPanel.add(startButton);
 
+		inputFolderBox.setText(getDefaultInputFolder());
 		dimensionRadios[1].setSelected(true);
 		// outputFolderBox.setText("output");
 
@@ -149,7 +161,7 @@ public class Gui extends JFrame implements ActionListener {
 		FileSystem fs = FileSystems.getDefault();
 
 		if (o == inputBrowseButton) {
-			Path p = performSelectFolder();
+			Path p = performSelectFolder(false);
 			if (p != null) {
 				inputFolderBox.setText(p.toString());
 			}
@@ -198,12 +210,15 @@ public class Gui extends JFrame implements ActionListener {
 		}
 	}
 
-	public Path performSelectFolder() {
-		// TODO: Set default Minecraft folder as the start folder
-		// If it is windows set the start folder to %Minecraft% ?
-		JFileChooser fc = new JFileChooser();
+	public Path performSelectFolder(boolean save) {
+		JFileChooser fc = new JFileChooser(inputFolderBox.getText());
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int res = fc.showOpenDialog(this);
-		return fc.getSelectedFile().toPath();
+		if (save) {
+			fc.showSaveDialog(this);
+		} else {
+			fc.showOpenDialog(this);
+		}
+		File res = fc.getSelectedFile();
+		return res==null?null:res.toPath();
 	}
 }
