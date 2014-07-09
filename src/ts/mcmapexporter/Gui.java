@@ -15,6 +15,10 @@ import java.nio.file.FileSystem;
 //      OverworldMap.png, NetherMap.png, TheEndMap.png is good default-names.
 //      See this example on java Properties: http://crunchify.com/java-properties-file-how-to-read-config-properties-values-in-java/
 
+//TODO: Add ability to read from .minecraft folder and look up the Worlds directly and
+//      list them in a JComboBox. .properties files should refer to each world separately.
+//      For example selected map dimension in the combo box should be differently for each World probably.
+
 //TODO: Create a custom dialog to select output folder.
 //      In this folder the map files will be stored (names of files specified in .properties file).
 
