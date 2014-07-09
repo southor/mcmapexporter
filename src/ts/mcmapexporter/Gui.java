@@ -46,10 +46,10 @@ public class Gui extends JFrame implements ActionListener {
 	
 	private String getDefaultInputFolder() {
 		// TODO: Test/Fix for windows
-		// TODO: Add also for Mac and Linux
+		// TODO: Test/Fix also for Mac and Linux
 		String osName = System.getProperty("os.name");
 		if (osName.equalsIgnoreCase("Windows")) {
-			return "%appdata%\.minecraft";
+			return "%appdata%\\.minecraft";
 		} else if (osName.equalsIgnoreCase("Mac")) {
 			return "~/Library/Application Support/minecraft";
 		} else if (osName.equalsIgnoreCase("Linux")) {
