@@ -10,16 +10,13 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileSystem;
 
 //TODO: Use java.util.Properties to store the settings set by user for map generating in a file.
-//      Some properties don't have to be settable from the Gui.
-//      If output directory is settable from Gui then maybe filenames should not be settable.
+//      Some properties don't have to be setable from the Gui.
+//      If output directory is setable from Gui then maybe filenames should not be setable.
 //      OverworldMap.png, NetherMap.png, TheEndMap.png is good default-names.
 //      See this example on java Properties: http://crunchify.com/java-properties-file-how-to-read-config-properties-values-in-java/
 
-//TODO: Use dialoge to select output folder.
+//TODO: Create a custom dialog to select output folder.
 //      In this folder the map files will be stored (names of files specified in .properties file).
-//      Another possibility is to have one save box for each map dimension (3 dimensions)
-//      This does not work well if you have multiple maps for each dimension which you can have if
-//      you have made a list of map numbers to include in a limited map.
 
 public class Gui extends JFrame implements ActionListener {
 
