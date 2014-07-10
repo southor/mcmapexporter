@@ -166,7 +166,7 @@ public class Gui extends JFrame implements ActionListener {
 		FileSystem fs = FileSystems.getDefault();
 
 		if (o == inputBrowseButton) {
-			Path p = performSelectFolder(false);
+			Path p = performSelectFolder("Select input folder");
 			if (p != null) {
 				inputFolderBox.setText(p.toString());
 			}
@@ -215,14 +215,10 @@ public class Gui extends JFrame implements ActionListener {
 		}
 	}
 
-	public Path performSelectFolder(boolean save) {
+	public Path performSelectFolder(String chooseText) {
 		JFileChooser fc = new JFileChooser(inputFolderBox.getText());
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		if (save) {
-			fc.showSaveDialog(this);
-		} else {
-			fc.showOpenDialog(this);
-		}
+		fc.showDialog(this, chooseText);
 		File res = fc.getSelectedFile();
 		return res==null?null:res.toPath();
 	}
