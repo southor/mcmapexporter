@@ -39,15 +39,15 @@ public class Gui extends JFrame implements ActionListener {
 	// Components in scalePanel
 	JComboBox<Integer> scaleSelector;
 
-	// // Components in outputPanel
-	// JTextField outputFolderBox;
-	// JButton outputBrowseButton;
+	// Components in outputPanel
+	JTextField outputFolderBox;
+	JButton outputBrowseButton;
 
 	// Components in startPanel
 	JButton startButton;
 
 	int MAX_SCALE = 4;
-	
+
 	private String getDefaultInputFolder() {
 		// TODO: Test/Fix for windows
 		// TODO: Test/Fix also for Mac and Linux
@@ -83,7 +83,7 @@ public class Gui extends JFrame implements ActionListener {
 		inputPanel = new JPanel();
 		dimensionPanel = new JPanel();
 		scalePanel = new JPanel();
-		// outputPanel = new JPanel();
+		outputPanel = new JPanel();
 		startPanel = new JPanel();
 
 		// Components in inputPanel
@@ -109,12 +109,11 @@ public class Gui extends JFrame implements ActionListener {
 		}
 		scaleSelector.setSelectedIndex(2);
 
-		// // Components in outputPanel
-		// outputLabel = new JLabel("Output file: ");
-		// outputFolderBox = new JTextField();
-		// outputFolderBox.setPreferredSize(TEXT_FIELD_START_SIZE);
-		// outputBrowseButton = new JButton("Browse");
-		// outputBrowseButton.addActionListener(this);
+		// Components in outputPanel
+		outputFolderBox = new JTextField();
+		outputFolderBox.setPreferredSize(TEXT_FIELD_START_SIZE);
+		outputBrowseButton = new JButton("Browse");
+		outputBrowseButton.addActionListener(this);
 
 		// components in startPanel
 		startButton = new JButton("Create Map");
@@ -125,7 +124,7 @@ public class Gui extends JFrame implements ActionListener {
 		windowPanel.add(inputPanel);
 		windowPanel.add(dimensionPanel);
 		windowPanel.add(scalePanel);
-		// windowPanel.add(outputPanel);
+		windowPanel.add(outputPanel);
 		windowPanel.add(startPanel);
 
 		inputPanel.add(new JLabel("Input Map Folder: "));
@@ -142,15 +141,15 @@ public class Gui extends JFrame implements ActionListener {
 		scalePanel.add(new JLabel("Scale: "));
 		scalePanel.add(scaleSelector);
 
-		// outputPanel.add(outputLabel);
-		// outputPanel.add(outputFolderBox);
-		// outputPanel.add(outputBrowseButton);
+		outputPanel.add(new JLabel("Output file: "));
+		outputPanel.add(outputFolderBox);
+		outputPanel.add(outputBrowseButton);
 
 		startPanel.add(startButton);
 
 		inputFolderBox.setText(getDefaultInputFolder());
 		dimensionRadios[1].setSelected(true);
-		// outputFolderBox.setText("output");
+		outputFolderBox.setText("output");
 
 	}
 
@@ -166,15 +165,15 @@ public class Gui extends JFrame implements ActionListener {
 		FileSystem fs = FileSystems.getDefault();
 
 		if (o == inputBrowseButton) {
-			Path p = performSelectFolder("Select input folder");
+			Path p = performSelectFolder("Select input directory");
 			if (p != null) {
 				inputFolderBox.setText(p.toString());
 			}
-			// } else if (o == outputBrowseButton) {
-			// Path p = performSelectFolder();
-			// if (p != null) {
-			// outputFolderBox.setText(p.toString());
-			// }
+		} else if (o == outputBrowseButton) {
+			Path p = performSelectFolder("Select output directory");
+			if (p != null) {
+				outputFolderBox.setText(p.toString());
+			}
 		} else if (o == startButton) {
 
 			String dimension = "";
@@ -196,21 +195,18 @@ public class Gui extends JFrame implements ActionListener {
 						"Please set the input folder path.");
 				return;
 			}
-
-			String outputFile = "CombinedMap.png";
-			// String outputFolder = outputFolderBox.getText();
-			// if (outputFolder.isEmpty()) {
-			// JOptionPane.showMessageDialog(null,
-			// "Please set an output file path.");
-			// return;
-			// }
-
+			
+			String outputFolder = outputFolderBox.getText();
+			if (outputFolder.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Please set an output file path.");
+				return;
+			}
+			Path outputFile = fs.getPath(outputFolder).resolve("CombinedMap.png");
 			int scale = (Integer) (scaleSelector.getSelectedItem());
 
 			// TODO: combineToImage should return true/false to indicate error
 			// or not. Print error message to a field in the Combiner object.
-			Combiner.combineToImage(fs.getPath(inputFolder), dimension, scale,
-					fs.getPath(outputFile));
+			Combiner.combineToImage(fs.getPath(inputFolder), dimension, scale, outputFile);
 			JOptionPane.showMessageDialog(null, "Map stored to " + outputFile);
 		}
 	}
@@ -220,6 +216,6 @@ public class Gui extends JFrame implements ActionListener {
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.showDialog(this, chooseText);
 		File res = fc.getSelectedFile();
-		return res==null?null:res.toPath();
+		return res == null ? null : res.toPath();
 	}
 }
