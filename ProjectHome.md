@@ -1,0 +1,1 @@
+An external tool that combines and exports all your map items in Minecraft into one single map image stored on your hard drive. This is useful because you get a better overview over what you have explored in your world.
